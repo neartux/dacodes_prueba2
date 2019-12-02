@@ -12,9 +12,6 @@ class CourseServiceImpl implements CourseService {
 
     private $course;
 
-    // TODO, hay que marcar los procesos despues como transacciones, para hacer rollback
-
-
     public function __construct(Course $course) {
         $this->course = $course;
     }
@@ -62,6 +59,5 @@ class CourseServiceImpl implements CourseService {
 
         $course->save();
     }
-
 
 }

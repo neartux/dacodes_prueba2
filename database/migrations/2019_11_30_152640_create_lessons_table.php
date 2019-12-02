@@ -18,6 +18,7 @@ class CreateLessonsTable extends Migration
             $table->unsignedBigInteger('status_id');
             $table->unsignedBigInteger('course_id');
             $table->string('name', 255);
+            $table->text('description');
 
             $table->foreign('status_id')->references('id')->on('status')
                 ->onUpdate('cascade')->onDelete('cascade');

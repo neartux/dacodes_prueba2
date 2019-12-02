@@ -30,4 +30,15 @@ Route::group(['middleware' => 'auth:api'], function(){
 
     Route::delete('course/{id}', 'API\CourseController@delete');
 
+    Route::get('course/{course_id}/lesson', 'API\LessonController@index');
+
+    Route::get('course/{course_id}/lesson/{lesson_id}', 'API\LessonController@show');
+
+    Route::post('course/{course_id}/lesson', 'API\LessonController@store');
+
+    Route::put('course/{course_id}/lesson/{lesson_id}', 'API\LessonController@update');
+
+    Route::delete('course/{course_id}/lesson/{lesson_id}', 'API\LessonController@delete');
+
+
 });

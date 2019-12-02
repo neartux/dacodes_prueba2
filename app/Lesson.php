@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lesson extends Model {
 
-    protected $table = 'course';
+    protected $table = 'lesson';
 
     public $timestamps = false;
 
@@ -22,7 +22,11 @@ class Lesson extends Model {
         return $this->hasMany('App\Question');
     }
 
-    public function findById($id) {
+    public function findById($course_id, $lesson_id) {
+        return static::where('id', $lesson_id)->where('course_id', $course_id)->first();
+    }
+
+    public function findByIdLesson($id) {
         return static::findOrFail($id);
     }
 }

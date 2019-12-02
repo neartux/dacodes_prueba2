@@ -177,6 +177,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         App\Providers\course\CourseProvider::class,
+        App\Providers\lesson\LessonProvider::class,
 
     ],
 

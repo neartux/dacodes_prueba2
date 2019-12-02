@@ -1,44 +1,45 @@
 <?php
 
+
 namespace App\Http\Controllers\API;
 
+
 use App\Http\Controllers\Controller;
-use App\Services\course\CourseService;
-use App\Utils\StatusKeys;
+use App\Services\lesson\LessonService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class CourseController extends Controller {
+class LessonController extends Controller {
 
-    private $courseService;
+    private $lessonService;
 
 
-    public function __construct(CourseService $courseService) {
-        $this->courseService = $courseService;
+    public function __construct(LessonService $lessonService) {
+        $this->lessonService = $lessonService;
     }
 
 
-    public function index() {
+    public function index($course_id) {
         try {
-            return response()->json(array("success" => true, "courses" => $this->courseService->findAll()));
+            return response()->json(array("success" => true, "courses" => $this->lessonService->findAll($course_id)));
         } catch (\Exception $exception) {
             return response()->json(array("success" => false, "courses" => []));
         }
     }
 
-    public function show($id) {
+    public function show($course_id, $lesson_id) {
         try {
-            return response()->json(array("success" => true, "course" => $this->courseService->findById($id)));
+            return response()->json(array("success" => true, "course" => $this->lessonService->findById($course_id, $lesson_id)));
         } catch (\Exception $exception) {
             return response()->json(array("success" => false, "course" => []));
         }
     }
 
-    public function store(Request $request) {
+    public function store($course_id, Request $request) {
         DB::beginTransaction();
         try {
             // TODO, hay validar antes de guardar info
-            $this->courseService->store($request->all());
+            $this->lessonService->store($course_id, $request->all());
             DB::commit();
             return response()->json(null, 201);
         } catch (\Exception $exception) {
@@ -47,10 +48,10 @@ class CourseController extends Controller {
         }
     }
 
-    public function update($id, Request $request) {
+    public function update($course_id, $lesson_id, Request $request) {
         DB::beginTransaction();
         try {
-            $this->courseService->update($id, $request->all());
+            $this->lessonService->update($course_id, $lesson_id, $request->all());
             DB::commit();
             return response()->json(null, 200);
         } catch (\Exception $exception) {
@@ -59,10 +60,10 @@ class CourseController extends Controller {
         }
     }
 
-    public function delete($id) {
+    public function delete($course_id, $lesson_id) {
         DB::beginTransaction();
         try {
-            $this->courseService->delete($id);
+            $this->lessonService->delete($course_id, $lesson_id);
             DB::commit();
             return response()->json(null, 200);
         } catch (\Exception $exception) {
@@ -70,4 +71,5 @@ class CourseController extends Controller {
             return response()->json(array("success" => false, "message" => $exception->getMessage()), 500);
         }
     }
+
 }
