@@ -5,41 +5,39 @@ namespace App\Http\Controllers\API;
 
 
 use App\Http\Controllers\Controller;
-use App\Services\lesson\LessonService;
+use App\Services\question\QuestionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class LessonController extends Controller {
+class QuestionController extends Controller {
 
-    private $lessonService;
+    private $questionService;
 
-
-    public function __construct(LessonService $lessonService) {
-        $this->lessonService = $lessonService;
+    public function __construct(QuestionService $questionService) {
+        $this->questionService = $questionService;
     }
 
-
-    public function index($course_id) {
+    public function index($course_id, $lesson_id) {
         try {
-            return response()->json(array("success" => true, "lessons" => $this->lessonService->findAll($course_id)));
+            return response()->json(array("success" => true, "questions" => $this->questionService->findAll($lesson_id)));
         } catch (\Exception $exception) {
-            return response()->json(array("success" => false, "lessons" => []));
+            return response()->json(array("success" => false, "questions" => []));
         }
     }
 
-    public function show($course_id, $lesson_id) {
+    public function show($course_id, $lesson_id, $question_id) {
         try {
-            return response()->json(array("success" => true, "lesson" => $this->lessonService->findById($course_id, $lesson_id)));
+            return response()->json(array("success" => true, "question" => $this->questionService->findById($lesson_id, $question_id)));
         } catch (\Exception $exception) {
-            return response()->json(array("success" => false, "lessons" => []));
+            return response()->json(array("success" => false, "questions" => []));
         }
     }
 
-    public function store($course_id, Request $request) {
+    public function store($course_id, $lesson_id, Request $request) {
         DB::beginTransaction();
         try {
             // TODO, hay validar antes de guardar info
-            $this->lessonService->store($course_id, $request->all());
+            $this->questionService->store($lesson_id, $request->all());
             DB::commit();
             return response()->json(null, 201);
         } catch (\Exception $exception) {
@@ -48,10 +46,10 @@ class LessonController extends Controller {
         }
     }
 
-    public function update($course_id, $lesson_id, Request $request) {
+    public function update($course_id, $lesson_id, $question_id, Request $request) {
         DB::beginTransaction();
         try {
-            $this->lessonService->update($course_id, $lesson_id, $request->all());
+            $this->questionService->update($lesson_id, $question_id, $request->all());
             DB::commit();
             return response()->json(null, 200);
         } catch (\Exception $exception) {
@@ -60,10 +58,10 @@ class LessonController extends Controller {
         }
     }
 
-    public function delete($course_id, $lesson_id) {
+    public function delete($course_id, $lesson_id, $question_id) {
         DB::beginTransaction();
         try {
-            $this->lessonService->delete($course_id, $lesson_id);
+            $this->questionService->delete($lesson_id, $question_id);
             DB::commit();
             return response()->json(null, 200);
         } catch (\Exception $exception) {

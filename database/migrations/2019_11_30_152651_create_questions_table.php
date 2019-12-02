@@ -18,7 +18,7 @@ class CreateQuestionsTable extends Migration
             $table->unsignedBigInteger('status_id');
             $table->unsignedBigInteger('lesson_id');
             $table->string('name', 255);
-            $table->integer('points');
+            $table->float('points');
 
             $table->foreign('status_id')->references('id')->on('status')
                 ->onUpdate('cascade')->onDelete('cascade');
