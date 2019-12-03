@@ -179,6 +179,7 @@ return [
         App\Providers\course\CourseProvider::class,
         App\Providers\lesson\LessonProvider::class,
         App\Providers\question\QuestionProvider::class,
+        App\Providers\question\AnswerQuestionProvider::class,
 
     ],
 

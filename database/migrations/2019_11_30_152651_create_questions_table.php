@@ -17,6 +17,7 @@ class CreateQuestionsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('status_id');
             $table->unsignedBigInteger('lesson_id');
+            $table->unsignedBigInteger('answer_type_id');
             $table->string('name', 255);
             $table->float('points');
 
@@ -24,6 +25,9 @@ class CreateQuestionsTable extends Migration
                 ->onUpdate('cascade')->onDelete('cascade');
 
             $table->foreign('lesson_id')->references('id')->on('lesson')
+                ->onUpdate('cascade')->onDelete('cascade');
+
+            $table->foreign('answer_type_id')->references('id')->on('answer_type')
                 ->onUpdate('cascade')->onDelete('cascade');
         });
     }

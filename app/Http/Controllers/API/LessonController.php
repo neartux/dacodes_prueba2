@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\LessonResource;
 use App\Services\lesson\LessonService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -29,7 +30,7 @@ class LessonController extends Controller {
 
     public function show($course_id, $lesson_id) {
         try {
-            return response()->json(array("success" => true, "lesson" => $this->lessonService->findById($course_id, $lesson_id)));
+            return response()->json(array("success" => true, "lesson" => new LessonResource($this->lessonService->findById($course_id, $lesson_id))));
         } catch (\Exception $exception) {
             return response()->json(array("success" => false, "lessons" => []));
         }

@@ -18,6 +18,10 @@ class Question extends Model {
         return $this->hasOne('App\Lesson', 'id', 'lesson_id');
     }
 
+    public function answersQuestion() {
+        return $this->hasMany('App\AnswerQuestion');
+    }
+
     public function findById($lesson_id, $question_id) {
         return static::where('id', $question_id)->where('lesson_id', $lesson_id)->first();
     }
